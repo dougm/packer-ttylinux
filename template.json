@@ -1,0 +1,52 @@
+{
+  "provisioners": [{
+    "type": "shell",
+    "script": "install.sh"
+  }],
+  "variables": {
+    "remote_host": ""
+  },
+  "builders": [
+    {
+      "type": "vmware",
+      "remote_type": "esx5",
+      "remote_host": "{{user `remote_host`}}",
+      "remote_username": "root",
+      "remote_password": "the_root_password",
+      "vmdk_name": "ttylinux",
+      "boot_command": [
+        "ttylinux enet<enter>",
+        "<wait5><wait5>",
+        "root<enter><wait>password<enter><wait>",
+        "nslookup www.vmware.com<enter>"
+      ],
+      "vnc_port_min": 8080,
+      "vnc_port_max": 8080,
+      "boot_wait": "5s",
+      "disk_size": 15,
+      "disk_type_id": "sesparse",
+      "guest_os_type": "other26xlinux",
+      "iso_checksum": "23d4710396bdbef6c6979d69b763230b",
+      "iso_checksum_type": "md5",
+      "iso_urls": [
+        "http://dl.bintray.com/dougm/ttylinux/ttylinux-pc_i486-16.1.iso"
+      ],
+      "ssh_skip_request_pty": true,
+      "ssh_username": "root",
+      "ssh_password": "password",
+      "ssh_port": 22,
+      "ssh_wait_timeout": "60s",
+      "shutdown_command": "/sbin/shutdown -h",
+      "vmx_data": {
+        "ethernet0.networkName": "VM Network",
+        "memsize": "32",
+        "numvcpus": "1",
+        "cpuid.coresPerSocket": "1",
+        "ide0:0.fileName": "ttylinux.vmdk",
+        "ide0:0.present": "TRUE",
+        "ide0:0.redo": "",
+        "scsi0:0.present": "FALSE"
+      }
+    }
+  ]
+}
